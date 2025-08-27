@@ -10,7 +10,6 @@ public abstract class CustomException extends RuntimeException{
     private final ErrorCode errorCode;
     private final HttpStatus httpStatus;
     private final Integer statusCode;
-    private final String message;
     private final LocalDateTime timestamp;
 
     protected CustomException(ErrorCode errorCode){
@@ -18,7 +17,6 @@ public abstract class CustomException extends RuntimeException{
         this.errorCode = errorCode;
         this.httpStatus = errorCode.getHttpStatus();
         this.statusCode = errorCode.getHttpStatus().value();
-        this.message = errorCode.getMessage();
         this.timestamp = LocalDateTime.now();
     }
 }
