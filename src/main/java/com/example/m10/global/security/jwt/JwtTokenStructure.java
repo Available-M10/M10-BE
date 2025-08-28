@@ -28,7 +28,7 @@ public class JwtTokenStructure {
         return Jwts.builder()
                 .signWith(getSecretKey(), SignatureAlgorithm.HS256)
                 .setSubject(accountId)
-                .setHeaderParam("type", type)
+                .claim("type", type)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + exp * 1000))
                 .compact();
