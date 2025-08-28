@@ -1,4 +1,4 @@
-package com.example.m10.global.model;
+package com.example.m10.global.exception.model;
 
 import lombok.Builder;
 import org.springframework.http.HttpStatus;
