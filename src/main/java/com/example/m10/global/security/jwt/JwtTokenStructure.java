@@ -1,7 +1,6 @@
 package com.example.m10.global.security.jwt;
 
-import com.example.m10.domain.auth.domain.repository.RefreshTokenRepository;
-import com.example.m10.domain.user.domain.repository.UserRepository;
+
 import com.example.m10.global.security.jwt.exception.ExpiredJwtException;
 import com.example.m10.global.security.jwt.exception.InvalidJwtException;
 import io.jsonwebtoken.Claims;
