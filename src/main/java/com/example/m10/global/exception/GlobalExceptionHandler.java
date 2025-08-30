@@ -1,8 +1,8 @@
-package com.example.m10.global;
+package com.example.m10.global.exception;
 
-import com.example.m10.global.model.CustomException;
-import com.example.m10.global.model.ErrorCode;
-import com.example.m10.global.model.ErrorResponse;
+import com.example.m10.global.exception.model.CustomException;
+import com.example.m10.global.exception.model.ErrorCode;
+import com.example.m10.global.exception.model.ErrorResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
