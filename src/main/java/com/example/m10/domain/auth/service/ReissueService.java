@@ -33,7 +33,7 @@ public class ReissueService {
         String accountId = refreshToken.getAccountId();
         String newRefreshToken = jwtTokenProvider.generateRefreshToken(accountId);
         refreshToken.update(newRefreshToken, jwtProperties.refreshExp());
-        refreshTokenRepository.save(refreshToken);
+
 
         return TokenResponseDto.builder()
                 .accessToken(jwtTokenProvider.generateAccessToken(accountId))
