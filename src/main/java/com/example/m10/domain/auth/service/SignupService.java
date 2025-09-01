@@ -18,7 +18,7 @@ public class SignupService {
 
     @Transactional
     public void signup(SignupRequestDto dto){
-        if (userRepository.findByAccountId(dto.accountId()).isPresent()) {
+        if (userRepository.existsByAccountId(dto.accountId())) {
             throw new UserExistException(); // 빠른 실패
         }
 
