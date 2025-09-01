@@ -35,8 +35,6 @@ spring:
       port: ${REDIS_PORT}
       host: ${REDIS_HOST}
 
-app:
-  timezone: Asia/Seoul
 
 logging:
   level:
