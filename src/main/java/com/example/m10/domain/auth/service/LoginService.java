@@ -19,7 +19,7 @@ public class LoginService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
 
-    @Transactional(readOnly = true)
+    @Transactional
     public TokenResponseDto login(LoginRequestDto dto){
         User user = userRepository.findByAccountId(dto.accountId())
                 .orElseThrow(UserNotFoundException::new);
