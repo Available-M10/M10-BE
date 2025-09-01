@@ -5,6 +5,7 @@ import com.example.m10.domain.user.domain.User;
 import com.example.m10.domain.user.domain.repository.UserRepository;
 import com.example.m10.domain.user.exception.UserExistException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,13 +18,18 @@ public class SignupService {
 
     @Transactional
     public void signup(SignupRequestDto dto){
-        if(userRepository.findByAccountId(dto.accountId()).isPresent()){
-            throw new UserExistException();
+        if (userRepository.findByAccountId(dto.accountId()).isPresent()) {
+            throw new UserExistException(); // 빠른 실패
         }
 
-        userRepository.save(User.builder()
-                .accountId(dto.accountId())
-                .password(passwordEncoder.encode(dto.password()))
-                .build());
+        try {
+            userRepository.save(User.builder()
+                    .accountId(dto.accountId())
+                    .password(passwordEncoder.encode(dto.password()))
+                    .build());
+        } catch (DataIntegrityViolationException e) {
+            throw new UserExistException();
+        }
     }
+
 }
