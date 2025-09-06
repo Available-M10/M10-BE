@@ -1,6 +1,7 @@
 package com.example.m10.domain.project.domain;
 
 import com.example.m10.domain.node.domain.Node;
+import com.example.m10.domain.user.domain.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -34,6 +35,10 @@ public class Project {
             fetch = FetchType.LAZY,
             orphanRemoval = true)
     private List<Node> nodes = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "owner_id", nullable = false)
+    private User owner;
 
     public void updateName(String name) {
         this.name = name;
