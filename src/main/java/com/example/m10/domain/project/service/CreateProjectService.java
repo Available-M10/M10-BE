@@ -26,6 +26,7 @@ public class CreateProjectService {
         Project project = projectRepository.save(
                 Project.builder()
                         .name(request.name())
+                        .owner(user)
                         .active(false)
                         .build()
         );
