@@ -23,7 +23,7 @@ public class SignupService {
         }
 
         try {
-            userRepository.saveAndFlush(User.builder()
+            userRepository.save(User.builder()
                     .accountId(dto.accountId())
                     .password(passwordEncoder.encode(dto.password()))
                     .build());
