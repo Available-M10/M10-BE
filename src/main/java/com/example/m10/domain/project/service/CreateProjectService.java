@@ -21,14 +21,12 @@ public class CreateProjectService {
 
     @Transactional
     public ProjectResponse createProject(CreateProjectRequest request) {
-        User user = userFacade.currentUser();
+        User user = userFacade.getCurrentUser();
 
         Project project = projectRepository.save(
                 Project.builder()
                         .name(request.name())
                         .active(false)
-                        .createAt(LocalDateTime.now())
-                        .updateAt(LocalDateTime.now())
                         .build()
         );
 
