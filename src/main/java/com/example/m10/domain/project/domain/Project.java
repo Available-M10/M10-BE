@@ -4,7 +4,6 @@ import com.example.m10.domain.node.domain.Node;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,11 +22,10 @@ public class Project {
     @Column(nullable = false)
     private String name;
 
-    private boolean active; // 현재는 on / off 두 개만 있어서 boolean으로 처리했는데 나중에 상태가 더 늘어나면 enum으로 바꾸는게 좋을듯
-    // 아니면 관리자같은 권한이 추가되면 enum으로 바꾸거나
+    private boolean active;
 
-    private LocalDateTime createAt;
-    private LocalDateTime updateAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     @Builder.Default
     @OneToMany(
@@ -39,6 +37,16 @@ public class Project {
 
     public void updateName(String name) {
         this.name = name;
-        this.updateAt = LocalDateTime.now();
+    }
+
+    @PrePersist
+    public void beforePersist() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = this.createdAt;
+    }
+
+    @PreUpdate
+    public void beforeUpdate() {
+        this.updatedAt = LocalDateTime.now();
     }
 }
