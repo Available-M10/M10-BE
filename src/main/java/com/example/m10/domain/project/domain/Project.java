@@ -1,7 +1,8 @@
 package com.example.m10.domain.project.domain;
 
-import com.example.m10.domain.node.domain.Node;
+import com.example.m10.domain.node.domain.entity.common.Node;
 import com.example.m10.domain.user.domain.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -34,6 +35,7 @@ public class Project {
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
             orphanRemoval = true)
+    @JsonIgnore
     private List<Node> nodes = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
