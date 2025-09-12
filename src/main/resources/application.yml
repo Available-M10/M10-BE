@@ -36,6 +36,24 @@ spring:
       host: ${REDIS_HOST}
 
 
+  cloud:
+    aws:
+      bucket: ${BUCKET_NAME}
+      accessKey: ${AWS_ACCESS_KEY_ID}
+      secretKey: ${AWS_SECRET_ACCESS_KEY}
+      region: ap-northeast-2
+      stack:
+        auto: false
+
+
 logging:
   level:
     org.springframework.security: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.validation: DEBUG
+    org.springframework.http.converter.json: DEBUG
+    # SQL + 바인딩 값까지 보고 싶다면 추가:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE
+
+
