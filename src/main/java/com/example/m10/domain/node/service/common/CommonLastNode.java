@@ -42,6 +42,6 @@ public class CommonLastNode {
         inPort.lastOutPortId();
 
         nextNode.linkEdge(previousPortId, inPort, project);
-        return NodeResponse.form(node);
+        return NodeResponse.from(node);
     }
 }
