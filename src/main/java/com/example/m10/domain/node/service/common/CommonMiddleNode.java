@@ -41,6 +41,6 @@ public class CommonMiddleNode {
                 .node(node)
                 .build());
         nextNode.linkEdge(previousPortId, port, project);
-        return NodeResponse.form(node, port.getOutPortId().toString());
+        return NodeResponse.from(node, port.getOutPortId().toString());
     }
 }

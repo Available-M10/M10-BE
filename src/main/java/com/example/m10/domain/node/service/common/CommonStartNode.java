@@ -37,6 +37,6 @@ public class CommonStartNode {
 
         Port outPort = portRepository.save(Port.builder().node(node).build());
         node.getPorts().add(outPort);
-        return NodeResponse.form(node, outPort.getOutPortId().toString());
+        return NodeResponse.from(node, outPort.getOutPortId().toString());
     }
 }
