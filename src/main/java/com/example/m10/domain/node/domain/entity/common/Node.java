@@ -21,9 +21,11 @@ public class Node {
     private Long id;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private NodeName name; //노드의 이름(채팅, 문서, LLM)을 나타냄
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private NodeType type; //시작 노드, 중간 노드, 마지막 노드를 나타냄
 
     @Column(columnDefinition = "json")
@@ -31,7 +33,7 @@ public class Node {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "project_id")
+    @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
     @Builder.Default
