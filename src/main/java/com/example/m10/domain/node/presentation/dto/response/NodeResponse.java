@@ -9,7 +9,7 @@ public record NodeResponse(
         String configJson,
         String myPortId
 ) {
-    public static NodeResponse form(Node node, String myPortId){
+    public static NodeResponse from(Node node, String myPortId){
         return new NodeResponse(
                 node.getId(),
                 node.getName().toString(),
@@ -19,7 +19,7 @@ public record NodeResponse(
         );
     }
 
-    public static NodeResponse form(Node node){
+    public static NodeResponse from(Node node){
         return new NodeResponse(
                 node.getId(),
                 node.getName().toString(),
