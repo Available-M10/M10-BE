@@ -2,6 +2,7 @@ package com.example.m10.domain.file.service;
 
 
 import com.example.m10.domain.file.exception.FileIsEmptyException;
+import com.example.m10.domain.file.exception.UnsupportedFileExtension;
 import com.example.m10.domain.file.presentation.dto.request.FileUploadRequest;
 import com.example.m10.domain.file.presentation.dto.response.FileUploadUrlResponse;
 import com.example.m10.domain.file.type.FileType;
@@ -34,19 +35,20 @@ public class FileUploadService {
     }
 
     private void validateFileName(String fileName) {
-        if (fileName == null || fileName.isEmpty()) {
+        if (fileName == null || fileName.isBlank()) {
             throw new FileIsEmptyException();
         }
     }
 
     private void validateExtension(String fileName, FileType fileType) {
         if (!fileType.isAllowedExtension(fileName)) {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedFileExtension();
         }
     }
 
     private String generateObjectKey(FileType fileType, String fileName, Long userId) {
-        return fileType.getPath().toLowerCase() + "/" + userId + "/" + UUID.randomUUID() + "/" + fileName;
+        String sanitized = fileName.replaceAll("[\\\\/]+", "");
+        return fileType.getPath().toLowerCase() + "/" + userId + "/" + UUID.randomUUID() + "/" + sanitized;
     }
 
 }
