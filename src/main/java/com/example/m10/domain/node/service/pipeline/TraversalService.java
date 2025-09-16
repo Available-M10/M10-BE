@@ -44,16 +44,9 @@ public class TraversalService {
     }
 
     @Transactional(readOnly = true)
-    public boolean existsConnectedNode(Long nodeId){
-        UUID cursor = portRepository.findOutPortIdByNodeId(nodeId)
+    public boolean hasConnections(Long nodeId){
+        UUID outPortId = portRepository.findOutPortIdByNodeId(nodeId)
                 .orElse(null);
-        if(cursor == null) return true; //삭제 가능
-
-        Port port = portRepository.findByOutPortId(cursor)
-                .flatMap(edgeRepository::findByFromPort)
-                .map(Edge::getToPort)
-                .orElse(null);
-
-        return port == null;
+        return outPortId !=null && edgeRepository.existsByFromPort_OutPortId(outPortId);
     }
 }
