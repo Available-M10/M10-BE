@@ -39,7 +39,7 @@ public class ProjectController {
         return queryAllProjectService.getAllProjects();
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/{id}/name")
     public void changeProjectName(
             @PathVariable("id") Long id,
             @RequestBody @Valid ChangeProjectNameRequest request) {
