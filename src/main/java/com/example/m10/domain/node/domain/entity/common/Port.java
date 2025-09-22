@@ -19,7 +19,7 @@ public class Port {
     @Column(name = "out_port_id", unique = true, columnDefinition = "BINARY(16)")
     private UUID outPortId;
 
-    @Column(name = "in_port_id", columnDefinition = "BINARY(16)")
+    @Column(name = "in_port_id", unique = true, columnDefinition = "BINARY(16)")
     private UUID inPortId;
 
     @JsonIgnore
