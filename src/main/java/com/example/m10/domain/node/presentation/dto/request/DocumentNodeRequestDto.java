@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 
 public record DocumentNodeRequestDto(
         @NotNull
-        Integer chunkSize,
+        int chunkSize,
 
         @NotNull
         EmbeddingModel embeddingModel,

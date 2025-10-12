@@ -1,7 +1,7 @@
 package com.example.m10.domain.node.service;
 
-import com.example.m10.domain.node.domain.repository.EdgeRepository;
-import com.example.m10.domain.node.domain.repository.NodeRepository;
+import com.example.m10.domain.node.domain.repository.common.EdgeRepository;
+import com.example.m10.domain.node.domain.repository.common.NodeRepository;
 import com.example.m10.domain.node.exception.NodeDeletionNotAllowedException;
 import com.example.m10.domain.node.exception.NodeNotFoundException;
 import com.example.m10.domain.node.service.pipeline.TraversalService;

@@ -1,6 +1,6 @@
 package com.example.m10.domain.node.presentation.controller;
 
-import com.example.m10.domain.node.mapper.DtoToJson;
+import com.example.m10.domain.node.mapper.JsonMapper;
 import com.example.m10.domain.node.presentation.dto.request.DocumentNodeRequestDto;
 import com.example.m10.domain.node.presentation.dto.request.LLMNodeRequestDto;
 import com.example.m10.domain.node.presentation.dto.response.NodeResponse;
@@ -28,10 +28,10 @@ public class NodeController {//TODO: SRP 원착에 따라 Controller 분리
     private final QueryAllNodeService queryAllNodeService;
     private final DeleteNodeService deleteNodeService;
 
-    private final DtoToJson dtoToJson;
+    private final JsonMapper jsonMapper;
 
     //start
-    @PostMapping(value = "/{projectId}/start/chat")
+    @PostMapping("/{projectId}/start/chat")
     public NodeResponse createChatNode(@PathVariable Long projectId){
         return chatNodeService.createNode(projectId);
     }
@@ -43,7 +43,7 @@ public class NodeController {//TODO: SRP 원착에 따라 Controller 분리
             @Valid @RequestBody DocumentNodeRequestDto dto,
             @RequestParam String linkPortId
             ){
-        return documentNodeService.createNode(projectId, linkPortId, dtoToJson.mapper(dto));
+        return documentNodeService.createNode(projectId, linkPortId, jsonMapper.toJson(dto));
     }
 
     //Last
@@ -53,7 +53,7 @@ public class NodeController {//TODO: SRP 원착에 따라 Controller 분리
             @Valid @RequestBody LLMNodeRequestDto dto,
             @RequestParam String linkPortId
     ){
-        return LLMNodeService.createNode(projectId, linkPortId, dtoToJson.mapper(dto));
+        return LLMNodeService.createNode(projectId, linkPortId, jsonMapper.toJson(dto));
     }
 
     @GetMapping("/{projectId}")

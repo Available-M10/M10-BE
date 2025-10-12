@@ -1,4 +1,4 @@
-package com.example.m10.domain.node.domain.repository;
+package com.example.m10.domain.node.domain.repository.common;
 
 import com.example.m10.domain.node.domain.entity.common.Node;
 import com.example.m10.domain.node.domain.entity.common.Port;

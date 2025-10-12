@@ -2,8 +2,8 @@ package com.example.m10.domain.node.service;
 
 import com.example.m10.domain.node.domain.entity.common.Edge;
 import com.example.m10.domain.node.domain.entity.common.Port;
-import com.example.m10.domain.node.domain.repository.EdgeRepository;
-import com.example.m10.domain.node.domain.repository.PortRepository;
+import com.example.m10.domain.node.domain.repository.common.EdgeRepository;
+import com.example.m10.domain.node.domain.repository.common.PortRepository;
 import com.example.m10.domain.node.exception.EdgeAlreadyExistsException;
 import com.example.m10.domain.node.exception.NodeConnectionException;
 import com.example.m10.domain.project.domain.Project;

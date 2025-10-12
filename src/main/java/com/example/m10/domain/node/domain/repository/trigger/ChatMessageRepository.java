@@ -1,4 +1,4 @@
-package com.example.m10.domain.node.domain.repository;
+package com.example.m10.domain.node.domain.repository.trigger;
 
 import com.example.m10.domain.node.domain.entity.trigger.ChatMessage;
 import org.springframework.data.jpa.repository.JpaRepository;
