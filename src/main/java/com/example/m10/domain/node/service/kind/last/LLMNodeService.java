@@ -42,7 +42,7 @@ public class LLMNodeService implements CommonNode, CommonRunNode {
                 .llm(dto.chatNode().name())
                 .prompt(dto.prompt())
                 .message(message)
-                .top_k(5) //임의의 값
+                .topK(5) //임의의 값
                 .build();
 
         String ai_message = aiClient.sendLlmRequest(ctx.projectId(), request);
