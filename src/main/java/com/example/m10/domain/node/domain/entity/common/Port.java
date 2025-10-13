@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -26,6 +28,12 @@ public class Port {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "node_id", nullable = false)
     private Node node;
+
+    @OneToMany(mappedBy = "fromPort", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Edge> outgoingEdges = new ArrayList<>();
+
+    @OneToMany(mappedBy = "toPort", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Edge> incomingEdges = new ArrayList<>();
 
     @PrePersist
     void prePersist(){
