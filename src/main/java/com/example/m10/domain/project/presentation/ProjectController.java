@@ -35,9 +35,8 @@ public class ProjectController {
     }
 
     @GetMapping
-    public List<QueryAllProjectResponse> getAllProjects(Long id) {
-
-        return queryAllProjectService.getAllProjects(id);
+    public List<QueryAllProjectResponse> getAllProjects() {
+        return queryAllProjectService.getAllProjects();
     }
 
     @PatchMapping("/{id}/name")
