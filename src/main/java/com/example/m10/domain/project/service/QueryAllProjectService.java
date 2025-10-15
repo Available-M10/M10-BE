@@ -15,7 +15,7 @@ public class QueryAllProjectService {
     private final ProjectRepository projectRepository;
 
     @Transactional(readOnly = true)
-    public List<QueryAllProjectResponse> getAllProjects() {
+    public List<QueryAllProjectResponse> getAllProjects(Long accountId) {
         return projectRepository.findAll()
                 .stream()
                 .map(QueryAllProjectResponse::from)
