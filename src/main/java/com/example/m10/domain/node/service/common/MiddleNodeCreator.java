@@ -4,8 +4,8 @@ import com.example.m10.domain.node.domain.entity.common.Node;
 import com.example.m10.domain.node.domain.entity.common.Port;
 import com.example.m10.domain.node.domain.enums.node.NodeName;
 import com.example.m10.domain.node.domain.enums.node.NodeType;
-import com.example.m10.domain.node.domain.repository.NodeRepository;
-import com.example.m10.domain.node.domain.repository.PortRepository;
+import com.example.m10.domain.node.domain.repository.common.NodeRepository;
+import com.example.m10.domain.node.domain.repository.common.PortRepository;
 import com.example.m10.domain.node.presentation.dto.response.NodeResponse;
 import com.example.m10.domain.node.service.NextNode;
 import com.example.m10.domain.project.domain.Project;
@@ -18,7 +18,7 @@ import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
-public class CommonLastNode {
+public class MiddleNodeCreator {
     private final NodeRepository nodeRepository;
     private final PortRepository portRepository;
     private final ProjectFacade projectFacade;
@@ -29,19 +29,18 @@ public class CommonLastNode {
         Project project = projectFacade.findByProject(projectId);
 
         Node node = nodeRepository.save(Node.builder()
-                .name(NodeName.LLM)
-                .type(NodeType.LAST)
+                .name(NodeName.DOCUMENT)
+                .type(NodeType.MIDDLE)
                 .configJson(json)
                 .project(project)
                 .build());
 
-        Port inPort = portRepository.save(Port.builder()
+
+        Port port = portRepository.save(Port.builder()
                 .inPortId(UUID.fromString(previousPortId))
                 .node(node)
                 .build());
-        inPort.lastOutPortId();
-
-        nextNode.linkEdge(previousPortId, inPort, project);
-        return NodeResponse.from(node);
+        nextNode.linkEdge(previousPortId, port, project);
+        return NodeResponse.from(node, port.getOutPortId().toString());
     }
 }

@@ -2,7 +2,6 @@ package com.example.m10.domain.project.service;
 
 import com.example.m10.domain.project.domain.repository.ProjectRepository;
 import com.example.m10.domain.project.presentation.dto.response.QueryAllProjectResponse;
-import com.example.m10.domain.user.domain.User;
 import com.example.m10.domain.user.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,9 +18,7 @@ public class QueryAllProjectService {
 
     @Transactional(readOnly = true)
     public List<QueryAllProjectResponse> getAllProjects() {
-        User user = userFacade.getCurrentUser();
-
-        return projectRepository.findAllByOwner_AccountId(user.getAccountId())
+        return projectRepository.findAllByOwner(userFacade.getCurrentUser())
                 .stream()
                 .map(QueryAllProjectResponse::from)
                 .toList();

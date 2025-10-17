@@ -1,6 +1,6 @@
 package com.example.m10.domain.node.service.kind.trigger;
 
-import com.example.m10.domain.node.domain.repository.ChatMessageRepository;
+import com.example.m10.domain.node.domain.repository.trigger.ChatMessageRepository;
 import com.example.m10.domain.node.presentation.dto.response.ChatResponseDto;
 import com.example.m10.domain.project.facade.ProjectFacade;
 import lombok.RequiredArgsConstructor;

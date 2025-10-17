@@ -1,17 +1,17 @@
 package com.example.m10.domain.node.service.kind.last;
 
 import com.example.m10.domain.node.domain.enums.chat.Role;
-import com.example.m10.domain.node.exception.DtoConversionException;
+import com.example.m10.domain.node.mapper.JsonMapper;
 import com.example.m10.domain.node.presentation.dto.request.LLMNodeRequestDto;
 import com.example.m10.domain.node.presentation.dto.response.ChatResponseDto;
 import com.example.m10.domain.node.presentation.dto.response.NodeResponse;
-import com.example.m10.domain.node.service.common.CommonLastNode;
+import com.example.m10.domain.node.service.client.AiClient;
+import com.example.m10.domain.node.service.client.dto.AiLLMRequest;
+import com.example.m10.domain.node.service.common.LastNodeCreator;
 import com.example.m10.domain.node.service.common.define.CommonNode;
 import com.example.m10.domain.node.service.common.define.CommonRunNode;
 import com.example.m10.domain.node.service.common.define.NodeOutput;
 import com.example.m10.domain.node.service.common.define.RunContext;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,8 +21,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class LLMNodeService implements CommonNode, CommonRunNode {
-    private final CommonLastNode lastNode;
-    private final ObjectMapper objectMapper;
+    private final LastNodeCreator lastNode;
+    private final JsonMapper jsonMapper;
+    private final AiClient aiClient;
 
     @Override
     @Transactional
@@ -34,17 +35,18 @@ public class LLMNodeService implements CommonNode, CommonRunNode {
     @Override
     public NodeOutput run(RunContext ctx) {
         String json = ctx.node().getConfigJson();
-        LLMNodeRequestDto dto;
-        try{
-            dto = objectMapper.readValue(json, LLMNodeRequestDto.class);
-        } catch (JsonProcessingException e){
-            throw new DtoConversionException();
-        }
+        LLMNodeRequestDto dto = jsonMapper.fromJson(json, LLMNodeRequestDto.class);
 
-        //TODO: AI와 연결 후 LLM 요청 보내어 답변 받기 구현
         String message = ctx.attrs().get(Role.HUMAN.name()).toString();
-        System.out.println("llm: "+dto.chatNode() + ", prompt: " + dto.prompt()+"message: "+message);
+        AiLLMRequest request = AiLLMRequest.builder()
+                .llm(dto.chatNode().name())
+                .prompt(dto.prompt())
+                .message(message)
+                .topK(5) //임의의 값
+                .build();
 
-        return NodeOutput.chat(ChatResponseDto.from(Role.AI.name(), "TEXT"));
+        String ai_message = aiClient.sendLlmRequest(ctx.projectId(), request);
+
+        return NodeOutput.chat(ChatResponseDto.from(Role.AI.name(), ai_message));
     }
 }

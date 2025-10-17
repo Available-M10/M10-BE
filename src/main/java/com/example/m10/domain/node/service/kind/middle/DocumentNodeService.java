@@ -3,7 +3,9 @@ package com.example.m10.domain.node.service.kind.middle;
 import com.example.m10.domain.node.exception.DtoConversionException;
 import com.example.m10.domain.node.presentation.dto.request.DocumentNodeRequestDto;
 import com.example.m10.domain.node.presentation.dto.response.NodeResponse;
-import com.example.m10.domain.node.service.common.CommonMiddleNode;
+import com.example.m10.domain.node.service.client.AiClient;
+import com.example.m10.domain.node.service.client.dto.AiDocumentRequest;
+import com.example.m10.domain.node.service.common.MiddleNodeCreator;
 import com.example.m10.domain.node.service.common.define.CommonNode;
 import com.example.m10.domain.node.service.common.define.CommonRunNode;
 import com.example.m10.domain.node.service.common.define.NodeOutput;
@@ -19,9 +21,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class DocumentNodeService implements CommonNode, CommonRunNode {
-    private final CommonMiddleNode middleNode;
+    private final MiddleNodeCreator middleNode;
     private final S3Service s3Service;
     private final ObjectMapper objectMapper;
+    private final AiClient aiClient;
 
     @Override
     @Transactional
@@ -40,10 +43,15 @@ public class DocumentNodeService implements CommonNode, CommonRunNode {
             throw new DtoConversionException();
         }
 
-        //TODO: AI와 연결 후 Embedding Model로 Embedding 한 후 VectorDB에 저장 로직 구현
         String fileUrl = s3Service.generateUrl(dto.objectKey());
-        Long projectId = ctx.projectId();
-        System.out.println("project id: "+projectId+", file url: "+fileUrl +", EmbeddingModel: " + dto.embeddingModel()+", VectorDB: "+dto.vectorDB());
+        AiDocumentRequest request = AiDocumentRequest.builder()
+                .chunk_size(dto.chunkSize())
+                .embedding_model(dto.embeddingModel().name())
+                .vector_db(dto.vectorDB().name())
+                .object_key(fileUrl)
+                .build();
+
+        aiClient.sendDocumentRequest(ctx.projectId(), request);
         return NodeOutput.none();
     }
 }

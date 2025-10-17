@@ -1,16 +1,16 @@
 package com.example.m10.domain.node.service.kind.start;
 
 import com.example.m10.domain.node.presentation.dto.response.NodeResponse;
-import com.example.m10.domain.node.service.common.CommonStartNode;
-import com.example.m10.domain.node.service.common.define.CommonTriggerNode;
+import com.example.m10.domain.node.service.common.StartNodeCreator;
+import com.example.m10.domain.node.service.common.define.CommonStartNode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class ChatNodeService implements CommonTriggerNode {
-    private final CommonStartNode startNode;
+public class ChatNodeService implements CommonStartNode {
+    private final StartNodeCreator startNode;
 
     @Override
     @Transactional
