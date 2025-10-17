@@ -43,6 +43,7 @@ public class Project {
     @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
 
+    @Builder.Default
     @OneToMany(
             mappedBy = "project",
             cascade = CascadeType.ALL,

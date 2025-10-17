@@ -29,9 +29,13 @@ public class Port {
     @JoinColumn(name = "node_id", nullable = false)
     private Node node;
 
+    @JsonIgnore
+    @Builder.Default
     @OneToMany(mappedBy = "fromPort", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Edge> outgoingEdges = new ArrayList<>();
 
+    @JsonIgnore
+    @Builder.Default
     @OneToMany(mappedBy = "toPort", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Edge> incomingEdges = new ArrayList<>();
 
