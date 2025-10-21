@@ -28,19 +28,22 @@ public class LastNodeCreator {
     public NodeResponse createNode(Long projectId, String previousPortId, String json){
         Project project = projectFacade.findByProject(projectId);
 
-        Node node = nodeRepository.save(Node.builder()
+        Node node = Node.builder()
                 .name(NodeName.LLM)
                 .type(NodeType.LAST)
                 .configJson(json)
                 .project(project)
-                .build());
+                .build();
 
-        Port inPort = portRepository.save(Port.builder()
+        Port inPort = Port.builder()
                 .inPortId(UUID.fromString(previousPortId))
                 .node(node)
-                .build());
+                .build();
+
+        node.getPorts().add(inPort);
         inPort.lastOutPortId();
 
+        nodeRepository.save(node);
         nextNode.linkEdge(previousPortId, inPort, project);
         return NodeResponse.from(node);
     }

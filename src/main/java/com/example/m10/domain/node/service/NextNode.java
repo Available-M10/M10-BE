@@ -7,6 +7,7 @@ import com.example.m10.domain.node.domain.repository.common.PortRepository;
 import com.example.m10.domain.node.exception.EdgeAlreadyExistsException;
 import com.example.m10.domain.node.exception.NodeConnectionException;
 import com.example.m10.domain.project.domain.Project;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,14 +25,24 @@ public class NextNode {
         Port prevOutPort  = portRepository.findByOutPortIdAndNode_Project(UUID.fromString(previousPortId), project)
                 .orElseThrow(NodeConnectionException::new);
 
-        if(edgeRepository.existsByFromPortAndToPort(prevOutPort, currentPort)){
+
+
+        boolean exists = prevOutPort.getOutgoingEdges().stream()
+                .anyMatch(e -> e.getToPort().equals(currentPort)); //모르겠노 펑
+        if (exists) {
             throw new EdgeAlreadyExistsException();
         }
 
-        edgeRepository.save(Edge.builder()
+
+        Edge edge = Edge.builder()
                 .project(project)
                 .fromPort(prevOutPort)
                 .toPort(currentPort)
-                .build());
+                .build();
+
+        prevOutPort.getOutgoingEdges().add(edge);
+        currentPort.getIncomingEdges().add(edge);
+
+        edgeRepository.save(edge);
     }
 }

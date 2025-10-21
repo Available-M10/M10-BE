@@ -28,18 +28,24 @@ public class MiddleNodeCreator {
     public NodeResponse createNode(Long projectId, String previousPortId, String json){
         Project project = projectFacade.findByProject(projectId);
 
-        Node node = nodeRepository.save(Node.builder()
+        Node node = Node.builder()
                 .name(NodeName.DOCUMENT)
                 .type(NodeType.MIDDLE)
                 .configJson(json)
                 .project(project)
-                .build());
+                .build();
 
 
-        Port port = portRepository.save(Port.builder()
+
+        Port port = Port.builder()
                 .inPortId(UUID.fromString(previousPortId))
                 .node(node)
-                .build());
+                .build();
+
+        node.getPorts().add(port);
+        nodeRepository.save(node);
+
+
         nextNode.linkEdge(previousPortId, port, project);
         return NodeResponse.from(node, port.getOutPortId().toString());
     }
