@@ -5,7 +5,6 @@ import com.example.m10.domain.node.domain.entity.common.Port;
 import com.example.m10.domain.node.domain.enums.node.NodeName;
 import com.example.m10.domain.node.domain.enums.node.NodeType;
 import com.example.m10.domain.node.domain.repository.common.NodeRepository;
-import com.example.m10.domain.node.domain.repository.common.PortRepository;
 import com.example.m10.domain.node.presentation.dto.response.NodeResponse;
 import com.example.m10.domain.node.service.NextNode;
 import com.example.m10.domain.project.domain.Project;
@@ -20,7 +19,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class LastNodeCreator {
     private final NodeRepository nodeRepository;
-    private final PortRepository portRepository;
     private final ProjectFacade projectFacade;
     private final NextNode nextNode;
 
