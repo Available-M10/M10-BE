@@ -22,26 +22,32 @@ public class NextNode {
 
     @Transactional
     public void linkEdge(String previousPortId, Port currentPort, Project project){
-        Port prevOutPort  = portRepository.findByOutPortIdAndNode_Project(UUID.fromString(previousPortId), project)
+        Port prevOutPort = portRepository.findByOutPortIdAndNode_Project(
+                        UUID.fromString(previousPortId), project)
                 .orElseThrow(NodeConnectionException::new);
 
+        // 영속 상태 변
+        Port targetPort = (currentPort.getId() != null)
+                ? portRepository.findById(currentPort.getId()).orElseThrow(NodeConnectionException::new)
+                : currentPort;
 
-
+        // 중복 체크
+        UUID targetInPortId = targetPort.getInPortId();
         boolean exists = prevOutPort.getOutgoingEdges().stream()
-                .anyMatch(e -> e.getToPort().equals(currentPort)); //모르겠노 펑
+                .anyMatch(e -> e.getToPort().getInPortId().equals(targetInPortId));
+
         if (exists) {
             throw new EdgeAlreadyExistsException();
         }
 
-
         Edge edge = Edge.builder()
                 .project(project)
                 .fromPort(prevOutPort)
-                .toPort(currentPort)
+                .toPort(targetPort)
                 .build();
 
         prevOutPort.getOutgoingEdges().add(edge);
-        currentPort.getIncomingEdges().add(edge);
+        targetPort.getIncomingEdges().add(edge);
 
         edgeRepository.save(edge);
     }
